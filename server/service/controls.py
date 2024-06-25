@@ -9,7 +9,9 @@ Equal Plus
 #===============================================================================
 from common import UerpControl
 from driver import Redis, ElasticSearch, PostgreSql
+
 from schema.sample.model import Blog, Message
+from schema.adapter.atlassian.confluence import Space, Page
 from schema.support.vmware.docs import Knowledgebase
 
 
@@ -29,14 +31,10 @@ class Control(UerpControl):
         )
 
     async def startup(self):
-        
-        await self.registerModel(
-            Knowledgebase,
-            version=1,
-            cacheOptions={
-                'expire': 86400
-            }, searchOptions={
-                'expire': 2419200
-            })
+        await self.registerModel(Blog)
+        await self.registerModel(Message)
+        await self.registerModel(Space)
+        await self.registerModel(Page)
+        await self.registerModel(Knowledgebase)
 
     async def shutdown(self): pass
